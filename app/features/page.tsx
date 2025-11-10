@@ -4,38 +4,17 @@ import React, { useState, useEffect } from 'react';
 import { Navbar } from '@/components/navbar';
 import { Language } from '@/types';
 import { getTranslation } from '@/lib/translations';
-import { 
+import {
   Zap, 
-  Shield, 
-  Globe, 
-  FileText, 
-  Upload, 
-  Link as LinkIcon, 
-  Search, 
-  Format, 
   Eye,
-  Smartphone,
-  Download,
-  Palette,
-  Code,
-  BarChart3,
   RefreshCw,
   CheckCircle,
   DollarSign,
   Clock,
   Target,
   Brain,
-  Users,
-  TrendingUp,
   ArrowRight,
   HelpCircle,
-  Star,
-  Layers,
-  Database,
-  Cpu,
-  Network,
-  Lock,
-  Gauge
 } from 'lucide-react';
 
 export default function FeaturesPage() {
