@@ -18,6 +18,7 @@ import { TokenProvider, DataFormat, Language } from '@/types';
 import { getTranslation } from '@/lib/translations';
 import { useTheme } from '@/lib/theme-provider';
 import { cn } from '@/lib/utils';
+import { trackEvent } from '@/lib/analytics';
 
 interface MainEditorProps {
   language: Language;
@@ -170,13 +171,25 @@ projects[2]{name,progress,status}:
       
       if (result?.success && result.data) {
         setRightContent(result.data);
+        
+        // Track successful conversion
+        trackEvent.conversion(leftFormat, rightFormat, tokensSaved);
+        
+        // Track feature usage
+        trackEvent.featureUsage('converter', `${leftFormat}_to_${rightFormat}`);
       }
     } catch (error) {
       console.error('Conversion error:', error);
+      
+      // Track conversion errors
+      trackEvent.error(
+        error instanceof Error ? error.message : 'Conversion failed',
+        'conversion_error'
+      );
     } finally {
       setIsConverting(false);
     }
-  }, [leftContent, leftError, leftFormat, rightFormat]);
+  }, [leftContent, leftError, leftFormat, rightFormat, tokensSaved]);
 
   const swapContents = useCallback(() => {
     // Swap content
@@ -188,6 +201,9 @@ projects[2]{name,progress,status}:
     const tempFormat = leftFormat;
     setLeftFormat(rightFormat);
     setRightFormat(tempFormat);
+    
+    // Track swap action
+    trackEvent.featureUsage('swap_contents', 'button_click');
   }, [leftContent, rightContent, leftFormat, rightFormat]);
 
   return (
@@ -202,7 +218,14 @@ projects[2]{name,progress,status}:
 
         <div className="mb-4 flex items-center space-x-4">
           <label className="text-sm font-medium">{t.tokenProvider}:</label>
-          <Select value={tokenProvider} onValueChange={(value) => setTokenProvider(value as TokenProvider)}>
+          <Select 
+            value={tokenProvider} 
+            onValueChange={(value) => {
+              setTokenProvider(value as TokenProvider);
+              // Track token provider change
+              trackEvent.featureUsage('token_provider', `changed_to_${value}`);
+            }}
+          >
             <SelectTrigger className="w-[140px]">
               <SelectValue />
             </SelectTrigger>

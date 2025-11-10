@@ -95,10 +95,10 @@ export default function ContactPage() {
                 Questions about TOON format, partnerships, or collaboration opportunities.
               </p>
               <a 
-                href="mailto:supprot@toonlint.com"
+                href="mailto:support@toonlint.com"
                 className="text-primary hover:underline"
               >
-                  supprot@toonlint.com
+                support@toonlint.com
               </a>
             </div>
           </div>

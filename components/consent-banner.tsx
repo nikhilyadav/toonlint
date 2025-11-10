@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { X, Info, Shield } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { consent } from '@/lib/analytics';
 
 export function ConsentBanner() {
   const [showBanner, setShowBanner] = useState(false);
@@ -25,15 +26,8 @@ export function ConsentBanner() {
     localStorage.setItem('toonlint-consent-date', new Date().toISOString());
     setShowBanner(false);
     
-    // Enable Google Analytics
-    if (typeof window !== 'undefined' && (window as any).gtag) {
-      (window as any).gtag('consent', 'update', {
-        'analytics_storage': 'granted',
-        'ad_storage': 'granted',
-        'functionality_storage': 'granted',
-        'personalization_storage': 'granted'
-      });
-    }
+    // Enable analytics consent
+    consent.grant();
   };
 
   const handleAcceptNecessary = () => {
@@ -41,15 +35,8 @@ export function ConsentBanner() {
     localStorage.setItem('toonlint-consent-date', new Date().toISOString());
     setShowBanner(false);
     
-    // Deny non-essential cookies
-    if (typeof window !== 'undefined' && (window as any).gtag) {
-      (window as any).gtag('consent', 'update', {
-        'analytics_storage': 'denied',
-        'ad_storage': 'denied',
-        'functionality_storage': 'denied',
-        'personalization_storage': 'denied'
-      });
-    }
+    // Deny non-essential analytics
+    consent.deny();
   };
 
   const handleReject = () => {
@@ -57,15 +44,8 @@ export function ConsentBanner() {
     localStorage.setItem('toonlint-consent-date', new Date().toISOString());
     setShowBanner(false);
     
-    // Reject all non-essential cookies
-    if (typeof window !== 'undefined' && (window as any).gtag) {
-      (window as any).gtag('consent', 'update', {
-        'analytics_storage': 'denied',
-        'ad_storage': 'denied',
-        'functionality_storage': 'denied',
-        'personalization_storage': 'denied'
-      });
-    }
+    // Reject all non-essential analytics
+    consent.deny();
   };
 
   if (!showBanner) return null;
@@ -80,8 +60,8 @@ export function ConsentBanner() {
               <div>
                 <h3 className="font-semibold text-sm mb-1">Privacy & Cookie Notice</h3>
                 <p className="text-sm text-muted-foreground">
-                  We use cookies to enhance your experience, analyze site usage, and assist in marketing. 
-                  By continuing to use our site, you consent to our use of cookies in accordance with our Privacy Policy.
+                  We use cookies and analytics tools (Google Analytics & Microsoft Clarity) to enhance your experience, analyze site usage, and improve our service. 
+                  By continuing to use our site, you consent to our use of analytics in accordance with our Privacy Policy.
                   {!showDetails && (
                     <button
                       onClick={() => setShowDetails(true)}
@@ -95,9 +75,10 @@ export function ConsentBanner() {
                 {showDetails && (
                   <div className="mt-3 text-xs text-muted-foreground space-y-1">
                     <p><strong>Essential Cookies:</strong> Required for basic site functionality (theme, language preferences)</p>
-                    <p><strong>Analytics Cookies:</strong> Help us understand site usage via Google Analytics</p>
+                    <p><strong>Google Analytics:</strong> Tracks page views, user interactions, and site performance</p>
+                    <p><strong>Microsoft Clarity:</strong> Records user sessions to help improve user experience</p>
                     <p><strong>Your Rights:</strong> You can withdraw consent anytime. EU residents have additional rights under GDPR.</p>
-                    <p><strong>Data Location:</strong> Analytics data is processed by Google in accordance with their Privacy Policy.</p>
+                    <p><strong>Data Location:</strong> Analytics data is processed by Google and Microsoft in accordance with their Privacy Policies.</p>
                   </div>
                 )}
               </div>
