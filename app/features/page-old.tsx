@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Navbar } from '@/components/navbar';
 import { Language } from '@/types';
 import { getTranslation } from '@/lib/translations';
+import { Type as Format } from "lucide-react";
 import { 
   Zap, 
   Shield, 
@@ -11,8 +12,7 @@ import {
   FileText, 
   Upload, 
   Link as LinkIcon, 
-  Search, 
-  Format, 
+  Search,
   Eye,
   Smartphone,
   Download,
