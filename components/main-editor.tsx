@@ -1,9 +1,8 @@
 'use client';
 
 import React, { useState, useCallback, useEffect } from 'react';
-import { ArrowRight, ArrowLeft, FileText, Format, Upload, Link as LinkIcon, Loader2, Maximize, Minimize, ArrowLeftRight } from 'lucide-react';
+import { Loader2, Maximize, Minimize, ArrowLeftRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import {
   Select,
   SelectContent,
@@ -11,12 +10,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { useDropzone } from 'react-dropzone';
 import { ToonConverter } from '@/lib/toon-converter';
 import { TokenCounter } from '@/lib/token-counter';
 import { TokenProvider, DataFormat, Language } from '@/types';
 import { getTranslation } from '@/lib/translations';
-import { useTheme } from '@/lib/theme-provider';
 import { cn } from '@/lib/utils';
 import { trackEvent } from '@/lib/analytics';
 
@@ -25,7 +22,6 @@ interface MainEditorProps {
 }
 
 export function MainEditor({ language }: MainEditorProps) {
-  const { actualTheme } = useTheme();
   const t = getTranslation(language);
   
   const [leftContent, setLeftContent] = useState('');
@@ -126,7 +122,7 @@ projects[2]{name,progress,status}:
       }
     };
 
-    updateTokenCounts();
+        updateTokenCounts();
   }, [leftContent, rightContent, tokenProvider, leftFormat, rightFormat]);
 
   // Validation
